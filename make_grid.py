@@ -6,20 +6,22 @@ import random
 import importlib
 
 import uv_map
+import image
 importlib.reload(uv_map)
+importlib.reload(image)
+
+nonce = ''.join(['0123456789abcdef'[random.randint(0,15)] for x in range(8)])
 
 def new_grid(width, height, scale):
     # This function does what brandon's code should do eventually
     # But should be far easier to debug.
-    
-    nonce = ''.join(['0123456789abcdef'[random.randint(0,15)] for x in range(8)])
     
     me = bpy.data.meshes.new("GridMesh-"+nonce)
     bm = bmesh.new()
 
     for x in range(width + 1):
         for y in range(height + 1):
-            bm.verts.new((x*scale, y*scale, .1))
+            bm.verts.new((x*scale, y*scale, .001 * (x * y)))
             
     bm.verts.ensure_lookup_table()
 
@@ -77,10 +79,12 @@ def deselect_all():
     scn.objects.active = None
     
 if __name__ == "__main__":
+    print("Created nonce: %s"%nonce)
     if bpy.context.active_object:
         bpy.ops.object.mode_set(mode='OBJECT')
     deselect_all()
-    ob, patches = new_grid(300,300,.1)
+    ob, patches = new_grid(30,30,.1)
     #test_select(ob, patches[0])
-    uv_map.map_patches(ob,None,patches)
+    image.make_image(patches, "colors-"+nonce+".png")
+    uv_map.map_patches(ob,"colors-"+nonce+".png",patches)
     select_all(ob)

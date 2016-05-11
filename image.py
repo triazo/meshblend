@@ -2,7 +2,9 @@ import sympy
 from PIL import Image
 import sys
 
-RESOLUTION = 20
+RESOLUTION = 8
+
+u,v = sympy.symbols("u v", real=True)
 
 # To make more
 x = 0.0
@@ -14,10 +16,8 @@ def process_patch(patch):
         for vval in range(-1, RESOLUTION+1):
             # 1 is a placeholder.
             # Do something like sympy.solve(u=uval/RESOLUTION,v=vval/RESOLUTION)
-            global x
-            math_value = x
-            x += .1
-            map.append(math_value)
+            math_value = sympy.simplify(patch[0].subs(u, uval).subs(v,vval))
+            map.append(float(math_value))
     return map
 
 def normalize(patch, magnitude):
@@ -53,7 +53,7 @@ def colorize(curvatures):
 
     return colors
 
-def make_images(patches):
+def make_image(patches, filename):
     curvatures = []
     for i,p in enumerate(patches):
         sys.stdout.write("\r%d verticies done out of %d"%(i,len(patches)))
@@ -68,12 +68,13 @@ def make_images(patches):
     for l in colors:
         imdata += l
     im.putdata(imdata)
-    im.save("curvature_map.png")
+    im.save(filename)
+    
 
 
 def test():
     # strings are iterable. this should totally work.
-    make_images("ABC")
+    make_image("uuu", "test.png")
 
 if __name__ == "__main__":
     test()
