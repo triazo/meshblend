@@ -173,15 +173,21 @@ def faces_to_centroids(faces,vertices):
         centroids.append(centroid(f_verts))
     return centroids
     
-
+def get_faces_from_edges(face_edges):
+    edges_to_faces = {}
+    for i in range(0, len(face_edges)):
+        fes = face_edges[i]
+        for fe in fes:
+            if fe not in edges_to_faces.keys():
+                edges_to_faces[fe] = []
+            edges_to_faces[fe].append(i)
+    return edges_to_faces
 #get the active mesh
 obj = bpy.context.active_object
 
 # Get editmode changes
 obj.update_from_editmode()
 vertices = [tuple(x.co.xyz) for x in obj.data.vertices]
-
-# edges have a start vertex and an end vertex
 
 # get the face of the mesh
 
@@ -191,14 +197,8 @@ polys = mesh.polygons
 faces = [tuple(x.vertices) for x in polys] # vertices of faces
 face_edges = [tuple(x.edge_keys) for x in polys] 
 
-edges_to_faces = {}
+edges_to_faces = get_faces_from_edges(face_edges)
 
-for i in range(0, len(face_edges)):
-    fes = face_edges[i]
-    for fe in fes:
-        if fe not in edges_to_faces.keys():
-            edges_to_faces[fe] = []
-        edges_to_faces[fe].append(i)
 
 all_verts = [] # new vertices for the generated surface
 all_faces = [] # new face indicies for the generated surface
@@ -277,22 +277,22 @@ vert_to_face = vertex_to_faces(faces)
 # find the surrounding faces 
 # the pt corresponding to the vertex on the face and the counterclockwise point
 
-quad_net = vertices
-quad_face = faces
+quad_net = []#vertices
+quad_face = []#faces
 
 new_points = {}
+#create a mapping from the vertex to the (face, new_pt, new_clockwise_pt)
+vertex_to_new_pts = {}
 
 for i in range(0,len(vert_to_face)):
     vert_faces = vert_to_face[i]
     for j in range(0, len(vert_faces)):
-        #print("Vert faces")
-        #print (vert_faces)
+        
         to_add = []
         prev_len = len(quad_net)
         #vertex -> face_index, index_on_face
         new_vert = vert_faces[j]
         face_index = new_vert[0]
-        print("face_index: " + str(face_index))
         index_on_face = new_vert[1]
         centroid = tuple(centroids[face_index])
                 
@@ -301,7 +301,7 @@ for i in range(0,len(vert_to_face)):
             quad_net.append(centroid)
             new_points[centroid] = prev_len
             prev_len = prev_len + 1
-            
+           
         to_add.append(new_points[centroid])
             
         n_verts = len(faces[face_index])
@@ -322,16 +322,42 @@ for i in range(0,len(vert_to_face)):
             
         to_add.append(new_points[clockwise_pt])
         
+        vertex_to_new_pts[(i,face_index)] = (vert_pt,clockwise_pt) #??
         quad_face.append(tuple(to_add))
 
-print (50*'\n')
-print (quad_net)        
-print ('\n' + str(len(quad_net)))
+face_edges = [tuple(x.edge_keys) for x in polys]        
+edges_to_faces = get_faces_from_edges(face_edges)
+
+print(edges_to_faces)
+
+# edges have a start vertex and an end vertex
+
+face_edges = {}
+me = bpy.context.object.data
+for poly in me.polygons:
+    f_edges = []
+    for loop_index in range(poly.loop_start, poly.loop_start + poly.loop_total):
+        f_edges.append(me.loops[loop_index].vertex_index)
+    face_edges[poly.index] = f_edges
+    
+           
+for i in range(0,len(face_edges)):
+    face = face_edges[i]
+    n_verts = len(face)
+    for j in range(0,n_verts):
+        v_hat = face[j]
+        v = face[(j+1) % n_verts]
+        # vert_pt of the corresponding vertex and face        
+        other_face = list(set(edges_to_faces[min((v_hat,v),(v,v_hat))])-set([i]))[0]        
+        pt_1 = sympy.Matrix(1,3,vertex_to_new_pts[(v,i)][0])
+        pt_2 = sympy.Matrix(1,3,vertex_to_new_pts[(v,other_face)][1])        
+        new_pt = tuple(0.5 * pt_1 + 0.5*pt_2 + 1/6.0*(sympy.Matrix(1,3,vertices[v_hat]) - sympy.Matrix(1,3,vertices[v])))
+        quad_face.append((len(quad_net),new_points[tuple(pt_1)], new_points[tuple(pt_2)]))
+        quad_net.append(new_pt)        
 
 createMeshFromData('QuadTest', Vector((3,3,0)), 
-                            tuple(quad_net), tuple(quad_face))
-                                             
-                                               
+                            tuple(quad_net), tuple(quad_face))                                                                                         
 bpy.ops.object.editmode_toggle()
 #flip the inside out panels
 bpy.ops.mesh.normals_make_consistent(inside=False)
+bpy.ops.object.editmode_toggle()
