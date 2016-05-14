@@ -1,6 +1,10 @@
 import sympy
 from PIL import Image
 import sys
+import importlib
+
+import mathstuffs
+importlib.reload(mathstuffs)
 
 RESOLUTION = 8
 
@@ -10,14 +14,13 @@ u,v = sympy.symbols("u v", real=True)
 x = 0.0
 # ==========TODO==========
 def process_patch(patch):
+    gc = mathstuffs.gaussian_curvature(patch[0])
+    gc = sympy.lambdify((u,v),gc)
     # Patch is a sympy equation
     map = []
     for uval in range(-1, RESOLUTION+1):
         for vval in range(-1, RESOLUTION+1):
-            # 1 is a placeholder.
-            # Do something like sympy.solve(u=uval/RESOLUTION,v=vval/RESOLUTION)
-            math_value = sympy.simplify(patch[0].subs(u, uval).subs(v,vval))
-            map.append(float(math_value))
+            map.append(gc(uval,vval))
     return map
 
 def normalize(patch, magnitude):

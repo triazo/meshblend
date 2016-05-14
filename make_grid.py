@@ -48,7 +48,7 @@ def new_grid(width, height, scale):
         for y in range(height//3):
             verticies = [xx * (height+1) + yy for xx in range(x*3,x*3+4) for yy in range(y*3,y*3+4)]
             faces  = [xx * height + yy for xx in range(x*3,x*3+3) for yy in range(y*3,y*3+3)]
-            patches.append((u * v, verticies, faces))
+            patches.append(((u,v,u * v), verticies, faces))
     return (ob, patches)
 
 def test_select(ob, patch):
@@ -88,3 +88,4 @@ if __name__ == "__main__":
     image.make_image(patches, "colors-"+nonce+".png")
     uv_map.map_patches(ob,"colors-"+nonce+".png",patches)
     select_all(ob)
+    print("Done")
