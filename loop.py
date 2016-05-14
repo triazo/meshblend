@@ -1,5 +1,6 @@
 import bpy, bmesh, sympy
 import mathutils
+from collections import OrderedDict
 from mathutils import Vector
 
 #Provided from the Blender Wiki
@@ -210,6 +211,7 @@ add_faces_for_edges(edges_to_faces,all_faces,vertex_to_all)
 
 createMeshFromData('RefinedMesh', Vector((0,0,0)), 
                             tuple(all_verts), tuple(all_faces))
+
                                                
 bpy.ops.object.editmode_toggle()
 #flip the inside out panels
@@ -277,8 +279,9 @@ vert_to_face = vertex_to_faces(faces)
 # find the surrounding faces 
 # the pt corresponding to the vertex on the face and the counterclockwise point
 
-quad_net = []#vertices
-quad_face = []#faces
+
+quad_net = []  #vertices
+quad_face = [] #faces
 
 new_points = {}
 #create a mapping from the vertex to the (face, new_pt, new_clockwise_pt)
@@ -328,7 +331,6 @@ for i in range(0,len(vert_to_face)):
 face_edges = [tuple(x.edge_keys) for x in polys]        
 edges_to_faces = get_faces_from_edges(face_edges)
 
-print(edges_to_faces)
 
 # edges have a start vertex and an end vertex
 
@@ -340,6 +342,14 @@ for poly in me.polygons:
         f_edges.append(me.loops[loop_index].vertex_index)
     face_edges[poly.index] = f_edges
     
+
+#vertex index to quadnet points
+# {vertex_index: {face: []}}
+quad_nets = OrderedDict()
+
+# map a vertex to a ordered list of the inner points  
+# {vetex_index: {pt_1, pt_2,pt_3, pt_4}}
+#inner_pts = OrderedDict()
            
 for i in range(0,len(face_edges)):
     face = face_edges[i]
@@ -347,17 +357,60 @@ for i in range(0,len(face_edges)):
     for j in range(0,n_verts):
         v_hat = face[j]
         v = face[(j+1) % n_verts]
+        
         # vert_pt of the corresponding vertex and face        
         other_face = list(set(edges_to_faces[min((v_hat,v),(v,v_hat))])-set([i]))[0]        
         pt_1 = sympy.Matrix(1,3,vertex_to_new_pts[(v,i)][0])
         pt_2 = sympy.Matrix(1,3,vertex_to_new_pts[(v,other_face)][1])        
         new_pt = tuple(0.5 * pt_1 + 0.5*pt_2 + 1/6.0*(sympy.Matrix(1,3,vertices[v_hat]) - sympy.Matrix(1,3,vertices[v])))
-        quad_face.append((len(quad_net),new_points[tuple(pt_1)], new_points[tuple(pt_2)]))
-        quad_net.append(new_pt)        
+        
+        if new_pt not in new_points.keys():
+            new_points[new_pt] = len(quad_net)
+            quad_net.append(new_pt)
+                
+        quad_face.append((new_points[new_pt],new_points[tuple(pt_1)], new_points[tuple(pt_2)]))
+        
+               
+        if v not in quad_nets.keys():
+            quad_nets[v] = OrderedDict()
+        
+        if 'last_face' not in quad_nets[v].keys():
+            quad_nets[v]['last_face'] = None
+        
+        last_face = quad_nets[v]['last_face']
+            
+        if 'points' not in quad_nets[v].keys() :
+            quad_nets[v]['points'] = []
+        
+        if last_face == None:
+            centroid = tuple(centroids[i])
+            quad_nets[v]['points'].append(new_points[vertex_to_new_pts[(v,i)][1]]) # clockwise_pt
+            quad_nets[v]['points'].append(new_points[centroid])
+            quad_nets[v]['points'].append(new_points[vertex_to_new_pts[(v,i)][0]]) # new_pt
+            quad_nets[v]['points'].append(new_points[new_pt])
+            
+        if last_face == i: 
+            quad_nets[v]['last_face'] = other_face  
+            centroid = tuple(centroids[other_face])
+            quad_nets[v]['points'].append(new_points[vertex_to_new_pts[(v,other_face)][1]]) # clockwise_pt
+            quad_nets[v]['points'].append(new_points[centroid])
+            quad_nets[v]['points'].append(new_points[vertex_to_new_pts[(v,other_face)][0]]) # new_pt
+            quad_nets[v]['points'].append(new_points[new_pt])
+
+# these are the vertices in the dictionary new_points
+quad_net_verts = [] 
+            
+for vert in quad_nets.keys():
+    quad_net_verts.append(quad_nets[vert]['points'])
+    #assert(len(quad_nets[vert]['points'])==16)
+    
+#print(quad_net_verts)
+
 
 createMeshFromData('QuadTest', Vector((3,3,0)), 
                             tuple(quad_net), tuple(quad_face))                                                                                         
 bpy.ops.object.editmode_toggle()
+
 #flip the inside out panels
 bpy.ops.mesh.normals_make_consistent(inside=False)
 bpy.ops.object.editmode_toggle()
