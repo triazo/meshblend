@@ -443,3 +443,76 @@ bpy.ops.object.editmode_toggle()
 #flip the inside out panels
 bpy.ops.mesh.normals_make_consistent(inside=False)
 bpy.ops.object.editmode_toggle()
+
+# Compute the points
+def control_points(obj, quad_net):
+    # I hope indecies are consistent
+    bpy.ops.object.mode_set(mode='EDIT')
+    bm = bmesh.from_edit_mesh(obj.data)
+    bm.verts.ensure_lookup_table()
+
+    # Maybe replace sympy matrix with numpy matrix? This part is numeric not symbolic
+    pts = [sympy.Matrix(bm.verts[x].co) for x in quad_net['points']]
+    a = list([list([None for j in xrange(4)]) for i in xrange(4)])
+    b = list([list([None for j in xrange(5)]) for i in xrange(5)])
+    
+    # okay I have no idea what this is supposed to be
+    # paper says something about number of edges on a face in a different part
+    n0 = 1
+    c = sympy.cos(2*sympy.pi / n0)
+
+    # Fancy way of getting all the border points
+    # In the form (a/b,i,j,[(c,A)],[(c,a1,a2)],[(c,b1,b2)]) where
+    #     i - the indecies into the b array
+    #     A,a,b   - point index into array
+    #     c   - coefficient
+    #  For linear coeeficients or something
+    # maybe we can live generate this eventually
+    newpoints = [
+        (b,0,0,[(1,1)],[],[]),
+        (b,0,1,[(.25,1),(.75,2)],[],[]),
+        (b,0,2,[(.5,2),(.5,4)],[],[]),
+        (b,0,3,[(.25,5),(.75,4)],[],[]),
+        (b,0,4,[(1,1)]),[],[]),
+        
+        (a,0,0,[],[],[(.5,1,0),(.5,0,1)]),
+        (a,0,1,[(c/8,1),((3-3*c)/8,2),(c/4,4),(.125,0),(.5,3)],[],[]),
+        (a,0,2,[(c/8,5),((3-3*c)/8,4),(.125,6),(.5,3)],[],[]),
+        (a,0,3,[],[],[(.5,0,3),(.5,1,4)]),
+        
+        # man I hope the coefficients I guessed in the points for the quad net are right
+        (b,1,2,[(.875,3),(.125,11),(-.125,15),(-.125,7),(0.1875,0),(0.1875,6),(-0.0625,1),(-0.0625,5)],[],[]),
+        (b,1,1,[],[(.5,1,0),(.5,0,1)],[]),
+        (a,1,1,[],[],[(.5,2,1),(.5,1,2)]),
+        (b,2,2,[],[(.5,1,2),(.5,2,1)])]
+        
+    # I'm typing this at 4 am and somewhat realize how absurd this is
+    # Maybe I should have made some one dimentional ordering? 
+    #  Diddn't want to worry about boundries though so I just did this instead
+    for p in newpoints:
+        ll = len(p[0])-1
+        p[0][p[1]][p[2]] = sum([c * pts[j] for c,j in p[3]] +
+            [c * a[i][j] for c,i,j in p[4]] +
+            [c * b[i][j] for c,i,j in p[5]])
+        p[0][p[2]][ll - p[1]] = sum([c * pts[(j+4)%16] for c,j in p[3]] +
+            [c * a[j][3-i] for c,i,j in p[4]] +
+            [c * b[j]][4-i] for c,i,j in p[5]])
+        p[0][ll - p[1][ll - p[2]] = sum([c * pts[(j+8)%16] for c,j in p[3]] +
+            [c * a[3-i][3-j] for c,i,j in p[4]] +
+            [c * b[4-i]][4-j] for c,i,j in p[5]])
+        p[0][ll - p[2][p[1]] = sum([c * pts[(j+12)%16] for c,j in p[3]] +
+            [c * a[3-j][i] for c,i,j in p[4]] +
+            [c * b[4-j]][i] for c,i,j in p[5]])
+            
+    return (a,b)
+
+# Uh, function is supposed to use provided a's and b's to make bezier patches.
+# But its 5 am and I should probably sleep at one point
+def quartic_patches(a,b):
+    return None
+
+# Eventually needs to be [([quad_net(as index)], [faces(as indexes)], (patch1...patch4))]
+data_structure_thingy = []
+# This is basically pseudocode at this point. None of the 80 lines are tested at all I'm going to sleep
+for q in quad_nets:
+    data_structure_thingy.append(quartic_patches(*control_points(obj,q)))
