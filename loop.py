@@ -436,7 +436,7 @@ for vert in quad_nets.keys():
 #print(quad_net_verts)
 
 
-createMeshFromData('QuadTest', Vector((3,3,0)), 
+q_obj = createMeshFromData('QuadTest', Vector((3,3,0)), 
                             tuple(quad_net), tuple(quad_face))                                                                                         
 bpy.ops.object.editmode_toggle()
 
@@ -453,8 +453,8 @@ def control_points(obj, quad_net):
 
     # Maybe replace sympy matrix with numpy matrix? This part is numeric not symbolic
     pts = [sympy.Matrix(bm.verts[x].co) for x in quad_net['points']]
-    a = list([list([None for j in xrange(4)]) for i in xrange(4)])
-    b = list([list([None for j in xrange(5)]) for i in xrange(5)])
+    a = list([list([None for j in range(4)]) for i in range(4)])
+    b = list([list([None for j in range(5)]) for i in range(5)])
     
     # okay I have no idea what this is supposed to be
     # paper says something about number of edges on a face in a different part
@@ -469,11 +469,11 @@ def control_points(obj, quad_net):
     #  For linear coeeficients or something
     # maybe we can live generate this eventually
     newpoints = [
-        (b,0,0,[(1,1)],[],[]),
+        (b,0,0,[(1,1)],[],[]),      
         (b,0,1,[(.25,1),(.75,2)],[],[]),
         (b,0,2,[(.5,2),(.5,4)],[],[]),
         (b,0,3,[(.25,5),(.75,4)],[],[]),
-        (b,0,4,[(1,1)]),[],[]),
+        (b,0,4,[(1,1)],[],[]),
         
         (a,0,0,[],[],[(.5,1,0),(.5,0,1)]),
         (a,0,1,[(c/8,1),((3-3*c)/8,2),(c/4,4),(.125,0),(.5,3)],[],[]),
@@ -491,18 +491,20 @@ def control_points(obj, quad_net):
     #  Diddn't want to worry about boundries though so I just did this instead
     for p in newpoints:
         ll = len(p[0])-1
-        p[0][p[1]][p[2]] = sum([c * pts[j] for c,j in p[3]] +
-            [c * a[i][j] for c,i,j in p[4]] +
-            [c * b[i][j] for c,i,j in p[5]])
+        #p[0][p[1]][p[2]] = sum([c * pts[j] for c,j in p[3]] +
+        #print([c * pts[j] for c,j in p[3]] +
+            #[c * a[i][j] for c,i,j in p[4]] +
+            #[c * b[i][j] for c,i,j in p[5]])
+        return (None,None)
         p[0][p[2]][ll - p[1]] = sum([c * pts[(j+4)%16] for c,j in p[3]] +
             [c * a[j][3-i] for c,i,j in p[4]] +
-            [c * b[j]][4-i] for c,i,j in p[5]])
-        p[0][ll - p[1][ll - p[2]] = sum([c * pts[(j+8)%16] for c,j in p[3]] +
+            [c * b[j][4-i] for c,i,j in p[5]])
+        p[0][ll - p[1]][ll - p[2]] = sum([c * pts[(j+8)%16] for c,j in p[3]] +
             [c * a[3-i][3-j] for c,i,j in p[4]] +
-            [c * b[4-i]][4-j] for c,i,j in p[5]])
-        p[0][ll - p[2][p[1]] = sum([c * pts[(j+12)%16] for c,j in p[3]] +
+            [c * b[4-i][4-j] for c,i,j in p[5]])
+        p[0][ll - p[2]][p[1]] = sum([c * pts[(j+12)%16] for c,j in p[3]] +
             [c * a[3-j][i] for c,i,j in p[4]] +
-            [c * b[4-j]][i] for c,i,j in p[5]])
+            [c * b[4-j][i] for c,i,j in p[5]])
             
     return (a,b)
 
@@ -515,4 +517,4 @@ def quartic_patches(a,b):
 data_structure_thingy = []
 # This is basically pseudocode at this point. None of the 80 lines are tested at all I'm going to sleep
 for q in quad_nets:
-    data_structure_thingy.append(quartic_patches(*control_points(obj,q)))
+    data_structure_thingy.append(quartic_patches(*control_points(q_obj,quad_nets[q])))
