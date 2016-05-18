@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{blender}
+{\em Blender}, 2016.
+\newblock \url{https://www.blender.org}.
+
+\bibitem{drawio}
+{\em Draw.io}, 2016.
+\newblock \url{https://www.draw.io/}.
+
+\bibitem{python}
+{\em Python 3.5.1}, 2016.
+\newblock \url{https://www.python.org/downloads/release/python-351/}.
+
+\bibitem{loop1994smooth}
+Charles Loop.
+\newblock Smooth spline surfaces over irregular meshes.
+\newblock In {\em Proceedings of the 21st annual conference on Computer
+  graphics and interactive techniques}, pages 303--310. ACM, 1994.
+
+\end{thebibliography}
