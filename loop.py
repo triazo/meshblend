@@ -367,7 +367,7 @@ for i in range(0,len(face_edges)):
         if new_pt not in new_points.keys():
             new_points[new_pt] = len(quad_net)
             quad_net.append(new_pt)
-                
+        
         quad_face.append((new_points[new_pt],new_points[tuple(pt_1)], new_points[tuple(pt_2)]))
         
                
@@ -392,14 +392,14 @@ for i in range(0,len(face_edges)):
             quad_nets[v]['last_face'] = other_face  
             quad_nets[v]['start_face'] = i
             centroid = tuple(centroids[i])
-            quad_nets[v]['points'][0] = new_points[vertex_to_new_pts[(v,i)][1]] # clockwise_pt
-            quad_nets[v]['points'][1] = new_points[centroid]
+            quad_nets[v]['points'][0] = new_points[vertex_to_new_pts[(v,i)][1]] # clockwise_pt 
+            quad_nets[v]['points'][1] = new_points[centroid] #
             quad_nets[v]['points'][2] = new_points[vertex_to_new_pts[(v,i)][0]] # new_pt
             quad_nets[v]['points'][3] = new_points[new_pt]
             
             quad_nets[v]['points'][4] = new_points[vertex_to_new_pts[(v,other_face)][1]] # clockwise_pt
             centroid = tuple(centroids[other_face])
-            quad_nets[v]['points'][5] = new_points[centroid]
+            quad_nets[v]['points'][5] = new_points[centroid]#
             quad_nets[v]['points'][6] = new_points[vertex_to_new_pts[(v,other_face)][0]] # new_pt
             
         elif i == last_face:
@@ -408,14 +408,14 @@ for i in range(0,len(face_edges)):
         elif other_face != start_face and face != last_face:
             centroid = tuple(centroids[i])
             quad_nets[v]['points'][8] = new_points[vertex_to_new_pts[(v,i)][1]] # clockwise_pt
-            quad_nets[v]['points'][9] = new_points[centroid]
+            quad_nets[v]['points'][9] = new_points[centroid]#
             quad_nets[v]['points'][10] = new_points[vertex_to_new_pts[(v,i)][0]] # new_pt
             quad_nets[v]['points'][11] = new_points[new_pt]
         
         elif other_face == start_face:
             centroid = tuple(centroids[i])
             quad_nets[v]['points'][12] = new_points[vertex_to_new_pts[(v,i)][1]] # clockwise_pt
-            quad_nets[v]['points'][13] = new_points[centroid]
+            quad_nets[v]['points'][13] = new_points[centroid]#
             quad_nets[v]['points'][14] = new_points[vertex_to_new_pts[(v,i)][0]] # new_pt
             quad_nets[v]['points'][15] = new_points[new_pt]     
                                     
@@ -450,16 +450,20 @@ def control_points(obj, quad_net):
     bpy.ops.object.mode_set(mode='EDIT')
     bm = bmesh.from_edit_mesh(obj.data)
     bm.verts.ensure_lookup_table()
+    
+    # BRANDON replace this line
+    # edgenums = quad_net['edgenums']
+    edgenums = [3,4,4,3]
 
     # Maybe replace sympy matrix with numpy matrix? This part is numeric not symbolic
     pts = [sympy.Matrix(bm.verts[x].co) for x in quad_net['points']]
-    a = list([list([None for j in range(4)]) for i in range(4)])
-    b = list([list([None for j in range(5)]) for i in range(5)])
+    a = list([list([sympy.Matrix([0,0,0]) for j in range(4)]) for i in range(4)])
+    b = list([list([sympy.Matrix([0,0,0]) for j in range(5)]) for i in range(5)])
     
     # okay I have no idea what this is supposed to be
     # paper says something about number of edges on a face in a different part
-    n0 = 1
-    c = sympy.cos(2*sympy.pi / n0)
+    n = sympy.symbols('edges')
+    cn = sympy.cos(2*sympy.pi / n)
 
     # Fancy way of getting all the border points
     # In the form (a/b,i,j,[(c,A)],[(c,a1,a2)],[(c,b1,b2)]) where
@@ -476,36 +480,52 @@ def control_points(obj, quad_net):
         (b,0,4,[(1,1)],[],[]),
         
         (a,0,0,[],[],[(.5,1,0),(.5,0,1)]),
-        (a,0,1,[(c/8,1),((3-3*c)/8,2),(c/4,4),(.125,0),(.5,3)],[],[]),
-        (a,0,2,[(c/8,5),((3-3*c)/8,4),(.125,6),(.5,3)],[],[]),
+        (a,0,1,[(cn/8,1),((3-3*cn)/8,2),(cn/4,4),(.125,0),(.5,3)],[],[]),
+        (a,0,2,[(cn/8,5),((3-3*cn)/8,4),(.125,6),(.5,3)],[],[]),
         (a,0,3,[],[],[(.5,0,3),(.5,1,4)]),
         
         # man I hope the coefficients I guessed in the points for the quad net are right
         (b,1,2,[(.875,3),(.125,11),(-.125,15),(-.125,7),(0.1875,0),(0.1875,6),(-0.0625,1),(-0.0625,5)],[],[]),
         (b,1,1,[],[(.5,1,0),(.5,0,1)],[]),
         (a,1,1,[],[],[(.5,2,1),(.5,1,2)]),
-        (b,2,2,[],[(.5,1,2),(.5,2,1)])]
+        (b,2,2,[],[(.5,1,2),(.5,2,1)],[])]
         
     # I'm typing this at 4 am and somewhat realize how absurd this is
     # Maybe I should have made some one dimentional ordering? 
     #  Diddn't want to worry about boundries though so I just did this instead
     for p in newpoints:
         ll = len(p[0])-1
-        #p[0][p[1]][p[2]] = sum([c * pts[j] for c,j in p[3]] +
-        #print([c * pts[j] for c,j in p[3]] +
-            #[c * a[i][j] for c,i,j in p[4]] +
-            #[c * b[i][j] for c,i,j in p[5]])
-        return (None,None)
+        
+        p[0][p[1]][p[2]] = sum([c * pts[j] for c,j in p[3]]+
+            [c * a[i][j] for c,i,j in p[4]]+
+            [c * b[i][j] for c,i,j in p[5]],
+            sympy.Matrix([0,0,0])).subs(n,edgenums[0]).evalf()
         p[0][p[2]][ll - p[1]] = sum([c * pts[(j+4)%16] for c,j in p[3]] +
             [c * a[j][3-i] for c,i,j in p[4]] +
-            [c * b[j][4-i] for c,i,j in p[5]])
+            [c * b[j][4-i] for c,i,j in p[5]],
+            sympy.Matrix([0,0,0])).subs(n,edgenums[1]).evalf()
         p[0][ll - p[1]][ll - p[2]] = sum([c * pts[(j+8)%16] for c,j in p[3]] +
             [c * a[3-i][3-j] for c,i,j in p[4]] +
-            [c * b[4-i][4-j] for c,i,j in p[5]])
+            [c * b[4-i][4-j] for c,i,j in p[5]],
+            sympy.Matrix([0,0,0])).subs(n,edgenums[2]).evalf()
         p[0][ll - p[2]][p[1]] = sum([c * pts[(j+12)%16] for c,j in p[3]] +
             [c * a[3-j][i] for c,i,j in p[4]] +
-            [c * b[4-j][i] for c,i,j in p[5]])
+            [c * b[4-j][i] for c,i,j in p[5]],
+            sympy.Matrix([0,0,0])).subs(n,edgenums[3]).evalf()
             
+    # Sanity check. make sure every point has a nondummy value
+    for x,aa in enumerate(a):
+        for y,aaa in enumerate(aa):
+            if aaa == sympy.Matrix([0,0,0]):
+                # Will throw an error if there are symbols remaining
+                l = [float(e) for e in aaa]
+                print("Value a %d %d was left unfilled"%(x,y))
+    for x,aa in enumerate(b):
+        for y,aaa in enumerate(aa):
+            if aaa == sympy.Matrix([0,0,0]):
+                l = [float(e) for e in aaa]
+                print("Value b %d %d was left unfilled"%(x,y))
+                    
     return (a,b)
 
 # Uh, function is supposed to use provided a's and b's to make bezier patches.
