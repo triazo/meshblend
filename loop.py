@@ -267,11 +267,20 @@ def vertex_to_faces(faces):
 faces = [tuple(x.vertices) for x in polys] # vertices of face
 vertices = [tuple(x.co.xyz) for x in obj.data.vertices]
 centroids = faces_to_centroids(faces,vertices)
+
+centroids_to_faces = {}
+for i in range(0,len(centroids)): 
+    c =  tuple(centroids[i])
+    centroids_to_faces[c] = i 
+
+print(centroids_to_faces)
+
+
 face_vert_quad_map = {}
 for i in range(0,len(faces)):
     f_verts = [sympy.Matrix(1,3,vertices[x]) for x in faces[i]]
     for j in range(0,len(faces[i])):
-        face_vert_quad_map[(i,j)] = rid_map(f_verts,j) #TODO
+        face_vert_quad_map[(i,j)] = rid_map(f_verts,j) 
     
 vert_to_face = vertex_to_faces(faces)
 
@@ -280,7 +289,7 @@ vert_to_face = vertex_to_faces(faces)
 # the pt corresponding to the vertex on the face and the counterclockwise point
 
 
-quad_net = []  #vertices
+quad_net_v = []  #vertices
 quad_face = [] #faces
 
 new_points = {}
@@ -292,7 +301,7 @@ for i in range(0,len(vert_to_face)):
     for j in range(0, len(vert_faces)):
         
         to_add = []
-        prev_len = len(quad_net)
+        prev_len = len(quad_net_v)
         #vertex -> face_index, index_on_face
         new_vert = vert_faces[j]
         face_index = new_vert[0]
@@ -301,7 +310,7 @@ for i in range(0,len(vert_to_face)):
                 
         offset = -1
         if centroid not in new_points.keys():   
-            quad_net.append(centroid)
+            quad_net_v.append(centroid)
             new_points[centroid] = prev_len
             prev_len = prev_len + 1
            
@@ -310,7 +319,7 @@ for i in range(0,len(vert_to_face)):
         n_verts = len(faces[face_index])
         vert_pt = tuple(face_vert_quad_map[(face_index,(index_on_face+offset)%n_verts)])
         if vert_pt not in new_points.keys():
-            quad_net.append(vert_pt)
+            quad_net_v.append(vert_pt)
             new_points[vert_pt] = prev_len
             prev_len = prev_len + 1
 
@@ -319,7 +328,7 @@ for i in range(0,len(vert_to_face)):
         # get the clockwise point on the face
         clockwise_pt = tuple(face_vert_quad_map[(face_index, (index_on_face+offset+1)%n_verts)])
         if clockwise_pt  not in new_points.keys():
-            quad_net.append(clockwise_pt)
+            quad_net_v.append(clockwise_pt)
             new_points[clockwise_pt] = prev_len
             prev_len = prev_len + 1
             
@@ -365,8 +374,8 @@ for i in range(0,len(face_edges)):
         new_pt = tuple(0.5 * pt_1 + 0.5*pt_2 + 1/6.0*(sympy.Matrix(1,3,vertices[v_hat]) - sympy.Matrix(1,3,vertices[v])))
         
         if new_pt not in new_points.keys():
-            new_points[new_pt] = len(quad_net)
-            quad_net.append(new_pt)
+            new_points[new_pt] = len(quad_net_v)
+            quad_net_v.append(new_pt)
         
         quad_face.append((new_points[new_pt],new_points[tuple(pt_1)], new_points[tuple(pt_2)]))
         
@@ -437,7 +446,7 @@ for vert in quad_nets.keys():
 
 
 q_obj = createMeshFromData('QuadTest', Vector((3,3,0)), 
-                            tuple(quad_net), tuple(quad_face))                                                                                         
+                            tuple(quad_net_v), tuple(quad_face))                                                                                         
 bpy.ops.object.editmode_toggle()
 
 #flip the inside out panels
@@ -450,10 +459,12 @@ def control_points(obj, quad_net):
     bpy.ops.object.mode_set(mode='EDIT')
     bm = bmesh.from_edit_mesh(obj.data)
     bm.verts.ensure_lookup_table()
-    
-    # BRANDON replace this line
-    # edgenums = quad_net['edgenums']
-    edgenums = [3,4,4,3]
+          
+    n0 = len(faces[centroids_to_faces[quad_net_v[quad_net['points'][1]]]])
+    #print ("n0: {0}".format(n0))
+    n1 = len(faces[centroids_to_faces[quad_net_v[quad_net['points'][9]]]])
+    #print ('\tn1: {0}'.format(n1))
+    edgenums = [n0,n1,n1,n0] # verify this is the correct order
 
     # Maybe replace sympy matrix with numpy matrix? This part is numeric not symbolic
     pts = [sympy.Matrix(bm.verts[x].co) for x in quad_net['points']]
