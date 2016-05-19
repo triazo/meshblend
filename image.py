@@ -63,12 +63,13 @@ def colorize(curvatures):
     return colors
 
 def make_image(patches, filename):
+    
     curvatures = []
     for i,p in enumerate(patches):
         sys.stdout.write("\r%d verticies done out of %d"%(i,len(patches)))
         curvatures.append(process_patch(p))
     print('\nDone calculating, now making heatmap')
-
+    
     colors = colorize(curvatures)
 
     # make one big image for the gauss map. There's buffer for overlap.
@@ -77,7 +78,7 @@ def make_image(patches, filename):
     for l in colors:
         imdata += l
     im.putdata(imdata)
-    im.save(filename)
+    im.save("C:\\Users\\drumhb-t430s\\Documents\\Ubuntu-VM-Shared\\proj2\\meshblend\\" +filename)
     
 
 

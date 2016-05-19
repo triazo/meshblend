@@ -142,7 +142,7 @@
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=.5\linewidth]{img/quad_monkey}
-			\caption{Inside of `Suzanne'. Upon close examination one recognizes the mesh is open.}	
+			\caption{Inside of `Suzanne'. Upon closer examination one recognizes the mesh is open.}	
 		\end{figure}
 	\end{frame}
 	
@@ -191,13 +191,63 @@
 
 	\begin{frame}
 		\frametitle{Coloring Quartic B\`ezier Patches:}
-			Once the Quartic Triangular B\`ezier patches are resolved using sympy, the patches are colored with a UV map based on Gaussian curvature. Namely, Gaussian curvature is calculated using the first and second fundamental form coefficients: $$K = \dfrac{LN-M^2}{EG-F^2}$$
+			Once the Quartic Triangular B\`ezier patches are resolved into $\bm{\sigma}(u,v)$ using sympy, the patches are colored with a UV map based on Gaussian curvature. Namely, Gaussian curvature is calculated using the first and second fundamental form coefficients $$K = \dfrac{LN-M^2}{EG-F^2}.$$
+			
+			Positive Gaussian curvature is colored in greens, negative Gaussian curvature in reds, and zero Gaussian curvature in blue.
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Coloring Patches}
+		\begin{figure}
+			\centering
+			%\captionsetup{justification=centering}
+			\includegraphics[width=.43\linewidth]{img/cube-color}
+			\caption{UV coloring of patches from a cubic Blender mesh.}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Coloring Patches}
+		\begin{figure}
+			\centering
+			%\captionsetup{justification=centering}
+			\includegraphics[width=.73\linewidth]{img/ir_1_color}
+			\caption{UV coloring of patches from an irregular Blender mesh.}
+		\end{figure}
+	\end{frame}
+	
+	
+	\begin{frame}
+		\frametitle{Coloring Patches}
+		\begin{figure}
+			\centering
+			%\captionsetup{justification=centering}
+			\includegraphics[width=.43\linewidth]{img/solid_ir_2}
+			\caption{An starting irregular mesh.}
+		\end{figure}
 	\end{frame}
 
 	\begin{frame}
-		\frametitle{Images/animations:}
-		$\langle$Add images and animations along with explanations here.$\rangle$
+		\frametitle{Coloring Patches}
+		\begin{figure}
+			\centering
+			\includegraphics[width=.43\linewidth]{img/refined_ir_2}
+			\caption{Refined irregular mesh from Figure 18.}
+		\end{figure}
 	\end{frame}
+		
+		
+	\pagebreak
+		
+	\begin{frame}
+		\begin{figure}[h]
+			\frametitle{Coloring Patches}
+			\centering
+			%\captionsetup{justification=centering}
+			\includegraphics[width=.43\linewidth]{img/ir_2_color}
+			\caption{Colored irregular mesh for Figure 18.}
+		\end{figure}
+	\end{frame}	
 
 	
 	\begin{frame}
