@@ -455,19 +455,16 @@ bpy.ops.object.editmode_toggle()
 
 # Compute the points
 def control_points(obj, quad_net):
-    # I hope indecies are consistent
     bpy.ops.object.mode_set(mode='EDIT')
     bm = bmesh.from_edit_mesh(obj.data)
     bm.verts.ensure_lookup_table()
           
     n0 = len(faces[centroids_to_faces[quad_net_v[quad_net['points'][1]]]])
-    #print ("n0: {0}".format(n0))
     n1 = len(faces[centroids_to_faces[quad_net_v[quad_net['points'][9]]]])
-    #print ('\tn1: {0}'.format(n1))
-    edgenums = [n0,n1,n1,n0] # verify this is the correct order
+    edgenums = [n0,n0,n1,n1] # verify this is the correct order
 
     # Maybe replace sympy matrix with numpy matrix? This part is numeric not symbolic
-    pts = [sympy.Matrix(bm.verts[x].co) for x in quad_net['points']]
+    pts = [sympy.Matrix(bm.verts[x].co) for x in quad_net['points']] 
     a = list([list([sympy.Matrix([0,0,0]) for j in range(4)]) for i in range(4)])
     b = list([list([sympy.Matrix([0,0,0]) for j in range(5)]) for i in range(5)])
     
@@ -488,11 +485,11 @@ def control_points(obj, quad_net):
         (b,0,1,[(.25,1),(.75,2)],[],[]),
         (b,0,2,[(.5,2),(.5,4)],[],[]),
         (b,0,3,[(.25,5),(.75,4)],[],[]),
-        (b,0,4,[(1,1)],[],[]),
+        (b,0,4,[(1,5)],[],[]),
         
         (a,0,0,[],[],[(.5,1,0),(.5,0,1)]),
         (a,0,1,[(cn/8,1),((3-3*cn)/8,2),(cn/4,4),(.125,0),(.5,3)],[],[]),
-        (a,0,2,[(cn/8,5),((3-3*cn)/8,4),(.125,6),(.5,3)],[],[]),
+        (a,0,2,[((3-cn)/8,4),(cn/8,5),(.125,6),(.5,3)],[],[]),
         (a,0,3,[],[],[(.5,0,3),(.5,1,4)]),
         
         # man I hope the coefficients I guessed in the points for the quad net are right
@@ -511,6 +508,7 @@ def control_points(obj, quad_net):
             [c * a[i][j] for c,i,j in p[4]]+
             [c * b[i][j] for c,i,j in p[5]],
             sympy.Matrix([0,0,0])).subs(n,edgenums[0]).evalf()
+        
         p[0][p[2]][ll - p[1]] = sum([c * pts[(j+4)%16] for c,j in p[3]] +
             [c * a[j][3-i] for c,i,j in p[4]] +
             [c * b[j][4-i] for c,i,j in p[5]],
@@ -523,7 +521,9 @@ def control_points(obj, quad_net):
             [c * a[3-j][i] for c,i,j in p[4]] +
             [c * b[4-j][i] for c,i,j in p[5]],
             sympy.Matrix([0,0,0])).subs(n,edgenums[3]).evalf()
-            
+        
+        
+                
     # Sanity check. make sure every point has a nondummy value
     for x,aa in enumerate(a):
         for y,aaa in enumerate(aa):
@@ -539,13 +539,24 @@ def control_points(obj, quad_net):
                     
     return (a,b)
 
-# Uh, function is supposed to use provided a's and b's to make bezier patches.
-# But its 5 am and I should probably sleep at one point
 def quartic_patches(a,b):
-    return None
+    s, t, u = sympy.symbols('s t u')
+    expr = b[0][0]*(s**4) + 4*b[0][1]*(s**3)*t + 6*b[0][2]*(s**2)*(t**2) + 4*b[0][3]*s*(t**3) + b[0][4]*(t**4) + 4*a[0][3]*(t**3)*u \
+		   + 6*b[1][3]*(t**2)*(u**2) + 4*a[1][2]*t*(u**3) + b[2][2]*(u**4) + 4*a[1][1]*s*(u**3) + 6*b[1][1]*(s**2)*(u**2) \
+           + 4*a[0][0]*(s**3)*u + 12*a[0][2]*s*(t**2)*u + 12*a[0][1]*(s**2)*t*u + 12*b[1][2]*s*t*(u**2)
+    expr = expr.subs(u,1-(s+t))
+    print('\n'*5)
+    exprlist = list(tuple(expr))
+    print("ParametricPlot3D[{3}{0},{1},{2}{4},{3}s, 0, 1{4}, {3}t, 0, 1{4}, RegionFunction -> ( (#4 + #5) < 1 &)]".format(exprlist[0],exprlist[1],exprlist[2], '{', '}').replace('**','^'))
+    return expr
 
 # Eventually needs to be [([quad_net(as index)], [faces(as indexes)], (patch1...patch4))]
 data_structure_thingy = []
 # This is basically pseudocode at this point. None of the 80 lines are tested at all I'm going to sleep
-for q in quad_nets:
+
+#just testing the first quad-net right now
+count = 0
+for q in quad_nets: 
+    count = count + 1
     data_structure_thingy.append(quartic_patches(*control_points(q_obj,quad_nets[q])))
+    if count > 3: break
