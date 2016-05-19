@@ -575,9 +575,9 @@ def quartic_patches(a,b):
 data_structure_thingy = []
 
 for q in quad_nets: 
-    f1 = centroids_to_faces[quad_net_v[q['points'][1]]]
-    f2 = centroids_to_faces[quad_net_v[q['points'][5]]]
-    f3 = centroids_to_faces[quad_net_v[q['points'][9]]]
-    f4 = centroids_to_faces[quad_net_v[q['points'][13]]]
+    f1 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][1]]]
+    f2 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][5]]]
+    f3 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][9]]]
+    f4 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][13]]]
     q_faces = [f1, f2, f3, f4]
     data_structure_thingy.append((quartic_patches(*control_points(q_obj,quad_nets[q])), q, q_faces ))
