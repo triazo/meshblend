@@ -334,7 +334,7 @@ for i in range(0,len(vert_to_face)):
             
         to_add.append(new_points[clockwise_pt])
         
-        vertex_to_new_pts[(i,face_index)] = (vert_pt,clockwise_pt) #??
+        vertex_to_new_pts[(i,face_index)] = (vert_pt,clockwise_pt) 
         quad_face.append(tuple(to_add))
 
 face_edges = [tuple(x.edge_keys) for x in polys]        
@@ -371,7 +371,7 @@ for i in range(0,len(face_edges)):
         other_face = list(set(edges_to_faces[min((v_hat,v),(v,v_hat))])-set([i]))[0]        
         pt_1 = sympy.Matrix(1,3,vertex_to_new_pts[(v,i)][0])
         pt_2 = sympy.Matrix(1,3,vertex_to_new_pts[(v,other_face)][1])        
-        new_pt = tuple(0.5 * pt_1 + 0.5*pt_2 + 1/6.0*(sympy.Matrix(1,3,vertices[v_hat]) - sympy.Matrix(1,3,vertices[v])))
+        new_pt = tuple(0.5 * pt_1 + 0.5*pt_2 + 1/6.0*(sympy.Matrix(1,3,vertices[v]) - sympy.Matrix(1,3,vertices[v_hat])))
         
         if new_pt not in new_points.keys():
             new_points[new_pt] = len(quad_net_v)
@@ -404,14 +404,7 @@ for i in range(0,len(face_edges)):
             quad_nets[v]['points'][0] = new_points[vertex_to_new_pts[(v,i)][1]] # clockwise_pt 
             quad_nets[v]['points'][1] = new_points[centroid] #
             quad_nets[v]['points'][2] = new_points[vertex_to_new_pts[(v,i)][0]] # new_pt
-            quad_nets[v]['points'][3] = new_points[new_pt]
-            
-            #try reversing these?
-            #quad_nets[v]['points'][4] = new_points[vertex_to_new_pts[(v,other_face)][1]] # clockwise_pt
-            #centroid = tuple(centroids[other_face])
-            #quad_nets[v]['points'][5] = new_points[centroid]#
-            #quad_nets[v]['points'][6] = new_points[vertex_to_new_pts[(v,other_face)][0]] # new_pt
-            
+            quad_nets[v]['points'][3] = new_points[new_pt]                        
             quad_nets[v]['points'][4] = new_points[vertex_to_new_pts[(v,other_face)][1]] # clockwise_pt
             centroid = tuple(centroids[other_face])
             quad_nets[v]['points'][5] = new_points[centroid]#
@@ -432,23 +425,25 @@ for i in range(0,len(face_edges)):
             quad_nets[v]['points'][12] = new_points[vertex_to_new_pts[(v,i)][1]] # clockwise_pt
             quad_nets[v]['points'][13] = new_points[centroid]#
             quad_nets[v]['points'][14] = new_points[vertex_to_new_pts[(v,i)][0]] # new_pt
-            quad_nets[v]['points'][15] = new_points[new_pt]     
-                                    
+            quad_nets[v]['points'][15] = new_points[new_pt] 
+                
+                                   
             
 
 # these are the vertices in the dictionary new_points
 quad_net_verts = [] 
             
 for vert in quad_nets.keys():
-    quad_net_verts.append(quad_nets[vert]['points'])
+    pts = quad_nets[vert]['points']
+    quad_net_verts.append(pts)
+    
+    #quad_face.append(tuple()) 
     assert(len(quad_nets[vert]['points'])==16)
     
 for vert in quad_nets.keys():
     pts = quad_nets[vert]['points']
-    s = (pts[0],pts[2],pts[3],pts[4],pts[6] ,pts[7],pts[8],pts[10],pts[11],pts[12],pts[14],pts[15])
+    s = (pts[0],pts[2],pts[3],pts[4],pts[6] ,pts[7],pts[8],pts[10],pts[11],pts[12],pts[14],pts[15]) 
     quad_face.append(s)        
-    
-#print(quad_net_verts)
 
 
 q_obj = createMeshFromData('QuadTest', Vector((3,3,0)), 
