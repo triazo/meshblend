@@ -33,9 +33,10 @@
 	%Title of the project%
 	\section*{Project Description:}
 	\vspace{-0.2in} 
-	The goal of this project was to color Gaussian curvature on quartic B\'ezier Patches. These patches were generated from smooth approximations of arbitrary closed meshes, created in the open source modeling program Blender. The refinement process follows the algorithm detailed by Loop \cite{loop1994smooth}. 
+	The goal of this project was to color Gaussian curvature on quartic triangular B\'ezier Patches. These patches were generated from smooth approximations of arbitrary closed meshes, created in the open source modeling program Blender. The refinement process follows the algorithm detailed by Loop \cite{loop1994smooth}. 
 	
 	\subsection*{Spline Construction:}
+	\vspace{-0.1in}
 	The spline construction is split into three stages, each of  which is briefly detailed and illustrated:
 	\vspace{-0.1in}
 	\begin{enumerate}
@@ -43,10 +44,11 @@
 		\item Quad-Net Construction
 		\item Quartic Triangular B\`ezier Patch Construction
 	\end{enumerate}
-	This output of this algorithm is a collection of quartic triangular B\`ezier patches.
+	The output of this algorithm is a collection of quartic triangular B\`ezier patches.
 	
 	\subsubsection*{Mesh Refinement}
-	The refined meshes are a ``smoothing" of the the inputted closed meshes. The meshes resulting from this step have the property that each vertex in the mesh has exactly 4 edges incident on it. As the process is computationally expensive for complex meshes (as with $e$ edges and $v$ vertices  $\mathcal{O}(e\cdot v)$), simpler meshes are included for illustration.	
+	\vspace{-0.1in}
+	The refined meshes are a ``smoothing" of the the inputted closed meshes. The meshes resulting from this step have the property that each vertex in the mesh has exactly 4 edges incident on it. As the process is computationally expensive for complex meshes (as with $e$ edges and $v$ vertices  $\mathcal{O}(ev)$), simpler meshes are included for illustration.	
 	\begin{figure}
 			\centering
 			\captionsetup{justification=centering}
@@ -69,7 +71,7 @@
 	\pagebreak
 	
 	\subsubsection*{Quad-Net Construction}
-	Quad-nets are a set of 16 points that surround each vertex. These points form nets that when ``stitched" together cover the entire refined mesh $\mathcal{M}^1$. Ultimately, the quad-nets serve as a intermediary phase between the mesh refinement and the generation of quartic triangular B\`ezier surface patches. 
+	Quad-nets are sets of 16 points that surround each vertex. These points form nets that when ``stitched" together cover the entire refined mesh $\mathcal{M}^1$. Ultimately, the quad-nets serve as an intermediary phase between the mesh refinement and the generation of quartic triangular B\`ezier surface patches. 
 	\begin{figure}[bp!]
 		\centering
 		\captionsetup{justification=centering}
@@ -123,6 +125,18 @@
 		\includegraphics[width=.45\linewidth]{img/quartic}
 		\caption{Application of the above formula to the left triangular B\`ezier patch in Figure 8}
 	\end{figure}
+	\vspace{0.45in}
+	
+	\quad\quad  One notes that the above formula is equivalently expressed in the usual $u,v$ parametrization as: 
+	 $$\displaystyle \bm{\sigma}(u,v) = \sum_{\begin{smallmatrix} i+j+k=n \\ i,j,k \ge 0\end{smallmatrix}} \frac{n!}{i!j!k!} (1-u-v)^i u^j v^k \alpha^i \beta^j \gamma^k \quad0 \le u,v \quad u + v \le 1$$
+	
+	\begin{figure}[h]
+		\centering
+		\captionsetup{justification=centering}
+		\includegraphics[width=.43\linewidth]{img/bezier_patch}
+		\caption{Mathematica Plot of Quartic Triangular B\`ezier patches from  a cubic Blender mesh}
+	\end{figure}
+	
 	
 	\pagebreak
 	
@@ -149,7 +163,15 @@
 		\item The second fundamental form coefficient used to calculate the Gaussian curvature. $$M = \bm{\sigma}_{uv} \cdot \vec{n}$$
 		\item The second fundamental form coefficient used to calculate the Gaussian curvature.$$N = \bm{\sigma}_{vv} \cdot \vec{n}$$		
 		\item The Gaussian curvature. $$K = \dfrac{LN-M^2}{EG-F^2}$$
-		\item The formulation of quartic B\`ezier patches for control pts $\alpha^i, \beta^j, \gamma^k $ $$\displaystyle \bm{\sigma}(s,t,u) = \sum_{\begin{smallmatrix} i+j+k=n \\ i,j,k \ge 0\end{smallmatrix}} \frac{n!}{i!j!k!} s^i t^j u^k \alpha^i \beta^j \gamma^k \quad s + t + u = 1$$
+		\item The formulation of quartic B\`ezier patches for control points $\alpha^i, \beta^j, \gamma^k $ $$\displaystyle \bm{\sigma}(u,v) = \sum_{\begin{smallmatrix} i+j+k=n \\ i,j,k \ge 0\end{smallmatrix}} \frac{n!}{i!j!k!} (1-u-v)^i u^j v^k \alpha^i \beta^j \gamma^k \quad0 \le u,v \quad u + v \le 1$$
+		\item For each quartic patch this is in the form:
+		\begin{flalign*}
+			\bm{\sigma}(u,v) &= b_{00}(1-u-v)^4 + 4 b_{01}(1-u-v)^3u + 6b_{02}(1-u-v)^2u^2 + 4b_{03}(1-u-v)u^3 & \\ 
+			&\quad + b_{04}u^4 + 4a_{03}u^3v + 6 b_{13}u^2v^2 + 4a_{12}uv^3 + b_{22}v^4 + 4a_{11}(1-u-v)v^3\\
+			&\quad + 6 b_{11}(1-u-v)^2v^2 + 4 a_{00}(1-u-v)^3v + 12a_{02}(1-u-v)u^2v \\
+			&\quad + 12a_{01}(1-u-v)^2uv + 12b_{12}(1-u-v)uv^2
+		\end{flalign*}	
+		where $0 \le u,v \quad u + v \le 1$	
 	\end{enumerate}
 		
 	\bibliography{proj2}
