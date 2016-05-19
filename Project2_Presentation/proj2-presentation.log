@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.2.24)  19 MAY 2016 04:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.2.24)  19 MAY 2016 08:34
 entering extended mode
 **proj2-presentation.tex
 (proj2-presentation.tex
@@ -952,85 +952,134 @@ Package pdftex.def Info: img/refine_cube.png used on input line 43.
  [4
 
  <./img/refine_cube.png>]
-<img/refine_icosphere.png, id=124, 649.67719pt x 314.67563pt>
+<img/refine_cube_2.png, id=124, 274.77657pt x 256.70906pt>
+File: img/refine_cube_2.png Graphic file (type png)
+
+<use img/refine_cube_2.png>
+Package pdftex.def Info: img/refine_cube_2.png used on input line 52.
+(pdftex.def)             Requested size: 215.10196pt x 200.96474pt.
+ [5
+
+ <./img/refine_cube_2.png>]
+<img/refine_icosphere.png, id=151, 649.67719pt x 314.67563pt>
 File: img/refine_icosphere.png Graphic file (type png)
 
 <use img/refine_icosphere.png>
-Package pdftex.def Info: img/refine_icosphere.png used on input line 52.
+Package pdftex.def Info: img/refine_icosphere.png used on input line 61.
 (pdftex.def)             Requested size: 215.10196pt x 104.18417pt.
- [5
+ [6
 
  <./img/refine_icosphere.png>]
-<img/refine_monkey.png, id=151, 714.41907pt x 292.84406pt>
+<img/refine_icosphere_2.png, id=178, 271.0125pt x 255.95625pt>
+File: img/refine_icosphere_2.png Graphic file (type png)
+
+<use img/refine_icosphere_2.png>
+Package pdftex.def Info: img/refine_icosphere_2.png used on input line 70.
+(pdftex.def)             Requested size: 215.10196pt x 203.16008pt.
+ [7
+
+ <./img/refine_icosphere_2.png>]
+<img/refine_monkey.png, id=206, 714.41907pt x 292.84406pt>
 File: img/refine_monkey.png Graphic file (type png)
 
 <use img/refine_monkey.png>
-Package pdftex.def Info: img/refine_monkey.png used on input line 61.
+Package pdftex.def Info: img/refine_monkey.png used on input line 79.
 (pdftex.def)             Requested size: 215.10196pt x 88.17114pt.
- [6
+ [8
 
  <./img/refine_monkey.png>]
-<img/loop_quad_net.png, id=178, 383.18156pt x 379.4175pt>
+<img/refine_monkey_2.png, id=233, 387.69844pt x 333.49594pt>
+File: img/refine_monkey_2.png Graphic file (type png)
+
+<use img/refine_monkey_2.png>
+Package pdftex.def Info: img/refine_monkey_2.png used on input line 89.
+(pdftex.def)             Requested size: 215.10196pt x 185.03136pt.
+ [9
+
+ <./img/refine_monkey_2.png>]
+<img/loop_quad_net.png, id=260, 383.18156pt x 379.4175pt>
 File: img/loop_quad_net.png Graphic file (type png)
 
 <use img/loop_quad_net.png>
-Package pdftex.def Info: img/loop_quad_net.png used on input line 72.
+Package pdftex.def Info: img/loop_quad_net.png used on input line 101.
 (pdftex.def)             Requested size: 153.64493pt x 152.13483pt.
 
-Overfull \vbox (0.16173pt too high) detected at line 72
+Overfull \vbox (0.16173pt too high) detected at line 101
  []
 
-[7
+[10
 
  <./img/loop_quad_net.png>]
-<img/quad_cube.png, id=207, 643.6547pt x 291.33844pt>
+<img/quad_cube.png, id=288, 589.4522pt x 326.72063pt>
 File: img/quad_cube.png Graphic file (type png)
  <use img/quad_cube.png>
-Package pdftex.def Info: img/quad_cube.png used on input line 81.
-(pdftex.def)             Requested size: 245.83282pt x 111.26988pt.
+Package pdftex.def Info: img/quad_cube.png used on input line 110.
+(pdftex.def)             Requested size: 245.83282pt x 136.25955pt.
 
-[8
+[11
 
  <./img/quad_cube.png>]
-<img/quad_icosphere.png, id=234, 707.64375pt x 335.75438pt>
+<img/quad_cube_2.png, id=315, 293.59688pt x 305.64188pt>
+File: img/quad_cube_2.png Graphic file (type png)
+
+<use img/quad_cube_2.png>
+Package pdftex.def Info: img/quad_cube_2.png used on input line 119.
+(pdftex.def)             Requested size: 169.01036pt x 175.94324pt.
+ [12
+
+ <./img/quad_cube_2.png>]
+<img/quad_icosphere.png, id=342, 708.39656pt x 337.26pt>
 File: img/quad_icosphere.png Graphic file (type png)
 
 <use img/quad_icosphere.png>
-Package pdftex.def Info: img/quad_icosphere.png used on input line 90.
-(pdftex.def)             Requested size: 245.83282pt x 116.63972pt.
- [9
+Package pdftex.def Info: img/quad_icosphere.png used on input line 128.
+(pdftex.def)             Requested size: 245.83282pt x 117.03412pt.
+ [13
 
  <./img/quad_icosphere.png>]
-<img/quad_monkey.png, id=261, 624.08156pt x 359.84438pt>
+<img/quad_icosphere_2.png, id=370, 465.23813pt x 411.78844pt>
+File: img/quad_icosphere_2.png Graphic file (type png)
+
+<use img/quad_icosphere_2.png>
+Package pdftex.def Info: img/quad_icosphere_2.png used on input line 137.
+(pdftex.def)             Requested size: 230.46739pt x 203.98984pt.
+
+Overfull \vbox (0.26117pt too high) detected at line 137
+ []
+
+[14
+
+ <./img/quad_icosphere_2.png>]
+<img/quad_monkey.png, id=397, 624.08156pt x 359.84438pt>
 File: img/quad_monkey.png Graphic file (type png)
 
 <use img/quad_monkey.png>
-Package pdftex.def Info: img/quad_monkey.png used on input line 100.
+Package pdftex.def Info: img/quad_monkey.png used on input line 147.
 (pdftex.def)             Requested size: 153.64493pt x 88.58817pt.
- [10
+ [15
 
- <./img/quad_monkey.png>] [11
+ <./img/quad_monkey.png>] [16
 
 ]
-<img/bezier_loop.png, id=319, 269.50688pt x 259.7203pt>
+<img/bezier_loop.png, id=455, 269.50688pt x 259.7203pt>
 File: img/bezier_loop.png Graphic file (type png)
 
 <use img/bezier_loop.png>
-Package pdftex.def Info: img/bezier_loop.png used on input line 119.
+Package pdftex.def Info: img/bezier_loop.png used on input line 166.
 (pdftex.def)             Requested size: 122.91406pt x 118.45033pt.
- [12
+ [17
 
  <./img/bezier_loop.png>]
-<img/quartic.png, id=346, 550.055pt x 526.96875pt>
+<img/quartic.png, id=482, 550.055pt x 526.96875pt>
 File: img/quartic.png Graphic file (type png)
  <use img/quartic.png>
-Package pdftex.def Info: img/quartic.png used on input line 128.
+Package pdftex.def Info: img/quartic.png used on input line 175.
 (pdftex.def)             Requested size: 169.01036pt x 161.91125pt.
 
-[13
+[18
 
  <./img/quartic.png>]
-Overfull \hbox (7.58014pt too wide) detected at line 134
+Overfull \hbox (7.58014pt too wide) detected at line 181
 \OML/cmm/b/it/10.95 \OT1/cmss/m/n/10.95 (\OT1/mathkerncmss/m/sl/10.95 u\OML/cm
 m/m/it/10.95 ; \OT1/mathkerncmss/m/sl/10.95 v\OT1/cmss/m/n/10.95 ) = [] [](1 \O
 MS/cmsy/m/n/10.95   \OT1/mathkerncmss/m/sl/10.95 u \OMS/cmsy/m/n/10.95   \OT1/m
@@ -1041,36 +1090,36 @@ v u \OT1/cmss/m/n/10.95 + \OT1/mathkerncmss/m/sl/10.95 v \OMS/cmsy/m/n/10.95 
 \OT1/cmss/m/n/10.95 1
  []
 
-[14
+[19
 
-] <img/bezier_patch.jpg, id=399, 504.88625pt x 444.66125pt>
+] <img/bezier_patch.jpg, id=535, 504.88625pt x 444.66125pt>
 File: img/bezier_patch.jpg Graphic file (type jpg)
 
 <use img/bezier_patch.jpg>
-Package pdftex.def Info: img/bezier_patch.jpg used on input line 143.
+Package pdftex.def Info: img/bezier_patch.jpg used on input line 190.
 (pdftex.def)             Requested size: 132.13239pt x 116.36911pt.
- [15
+ [20
 
- <./img/bezier_patch.jpg>] [16
+ <./img/bezier_patch.jpg>] [21
 
-] [17
+] [22
 
-] [18
+] [23
 
 ]
-[19
+[24
 
-] [20
+] [25
 
 ]
 \tf@nav=\write6
 \tf@toc=\write7
 \tf@snm=\write8
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 172.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 172.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 221.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 221.
  (proj2-presentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 172.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 172.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 221.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 221.
 Package rerunfilecheck Info: File `proj2-presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1078,14 +1127,14 @@ Package rerunfilecheck Info: File `proj2-presentation.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 172.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 221.
  ) 
 Here is how much of TeX's memory you used:
- 17206 strings out of 493698
- 326740 string characters out of 3144391
- 394615 words of memory out of 3000000
- 20063 multiletter control sequences out of 15000+200000
- 28005 words of font info for 88 fonts, out of 3000000 for 9000
+ 17255 strings out of 493698
+ 327595 string characters out of 3144391
+ 394616 words of memory out of 3000000
+ 20096 multiletter control sequences out of 15000+200000
+ 28173 words of font info for 89 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  56i,14n,55p,436b,556s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Pr
@@ -1100,10 +1149,11 @@ s9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi10.pfb>
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi8.pfb><C:/Prog
 ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi9.pfb><C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on proj2-presentation.pdf (20 pages, 565373 bytes).
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on proj2-presentation.pdf (25 pages, 785747 bytes).
 PDF statistics:
- 605 PDF objects out of 1000 (max. 8388607)
- 41 named destinations out of 1000 (max. 500000)
- 93 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 747 PDF objects out of 1000 (max. 8388607)
+ 51 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

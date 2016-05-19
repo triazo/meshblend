@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.2.24)  19 MAY 2016 00:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.2.24)  19 MAY 2016 08:29
 entering extended mode
 **project2.tex
 (project2.tex
@@ -314,87 +314,121 @@ Package pdftex.def Info: img/refine_monkey.png used on input line 67.
  [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2 <./img/refine_cube.png
-> <./img/refine_icosphere.png> <./img/refine_monkey.png>] <img/loop_quad_net.pn
-g, id=23, 383.18156pt x 379.4175pt>
+> <./img/refine_icosphere.png> <./img/refine_monkey.png>] <img/refine_cube_2.pn
+g, id=23, 274.77657pt x 256.70906pt>
+File: img/refine_cube_2.png Graphic file (type png)
+
+<use img/refine_cube_2.png>
+Package pdftex.def Info: img/refine_cube_2.png used on input line 75.
+(pdftex.def)             Requested size: 145.2641pt x 135.71436pt.
+
+<img/refine_icosphere_2.png, id=24, 271.0125pt x 255.95625pt>
+File: img/refine_icosphere_2.png Graphic file (type png)
+
+<use img/refine_icosphere_2.png>
+Package pdftex.def Info: img/refine_icosphere_2.png used on input line 81.
+(pdftex.def)             Requested size: 145.2641pt x 137.19885pt.
+
+<img/refine_monkey_2.png, id=25, 387.69844pt x 333.49594pt>
+File: img/refine_monkey_2.png Graphic file (type png)
+
+<use img/refine_monkey_2.png>
+Package pdftex.def Info: img/refine_monkey_2.png used on input line 87.
+(pdftex.def)             Requested size: 193.68054pt x 166.60507pt.
+ [3 <./img/refine_cube_2.png> <./img/refine_icosphere_2.png> <./img/refine_monk
+ey_2.png>]
+<img/loop_quad_net.png, id=32, 383.18156pt x 379.4175pt>
 File: img/loop_quad_net.png Graphic file (type png)
 
 <use img/loop_quad_net.png>
-Package pdftex.def Info: img/loop_quad_net.png used on input line 78.
+Package pdftex.def Info: img/loop_quad_net.png used on input line 98.
 (pdftex.def)             Requested size: 242.10439pt x 239.72902pt.
 
-<img/quad_cube.png, id=24, 643.6547pt x 291.33844pt>
+<img/quad_cube.png, id=33, 589.4522pt x 326.72063pt>
 File: img/quad_cube.png Graphic file (type png)
  <use img/quad_cube.png>
-Package pdftex.def Info: img/quad_cube.png used on input line 85.
-(pdftex.def)             Requested size: 338.94466pt x 153.42174pt.
+Package pdftex.def Info: img/quad_cube.png used on input line 105.
+(pdftex.def)             Requested size: 338.94466pt x 187.87286pt.
 
-[3 <./img/loop_quad_net.png> <./img/quad_cube.png>]
-<img/quad_icosphere.png, id=30, 707.64375pt x 335.75438pt>
+[4 <./img/loop_quad_net.png> <./img/quad_cube.png>]
+<img/quad_icosphere.png, id=39, 708.39656pt x 337.26pt>
 File: img/quad_icosphere.png Graphic file (type png)
 
 <use img/quad_icosphere.png>
-Package pdftex.def Info: img/quad_icosphere.png used on input line 94.
-(pdftex.def)             Requested size: 338.94466pt x 160.82213pt.
+Package pdftex.def Info: img/quad_icosphere.png used on input line 116.
+(pdftex.def)             Requested size: 338.94466pt x 161.36833pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 121--122
 
  []
 
-<img/quad_monkey.png, id=31, 624.08156pt x 359.84438pt>
+<img/quad_monkey.png, id=40, 624.08156pt x 359.84438pt>
 File: img/quad_monkey.png Graphic file (type png)
 
 <use img/quad_monkey.png>
-Package pdftex.def Info: img/quad_monkey.png used on input line 104.
+Package pdftex.def Info: img/quad_monkey.png used on input line 126.
 (pdftex.def)             Requested size: 242.10439pt x 139.592pt.
- [4 <./img/quad_icosphere.png> <./img/quad_monkey.png>] <img/bezier_loop.png, i
-d=41, 269.50688pt x 259.7203pt>
+ [5 <./img/quad_icosphere.png> <./img/quad_monkey.png>] <img/quad_cube_2.png, i
+d=46, 293.59688pt x 305.64188pt>
+File: img/quad_cube_2.png Graphic file (type png)
+
+<use img/quad_cube_2.png>
+Package pdftex.def Info: img/quad_cube_2.png used on input line 136.
+(pdftex.def)             Requested size: 242.10439pt x 252.03639pt.
+
+<img/quad_icosphere_2.png, id=47, 465.23813pt x 411.78844pt>
+File: img/quad_icosphere_2.png Graphic file (type png)
+
+<use img/quad_icosphere_2.png>
+Package pdftex.def Info: img/quad_icosphere_2.png used on input line 145.
+(pdftex.def)             Requested size: 242.10439pt x 214.28828pt.
+ [6 <./img/quad_cube_2.png> <./img/quad_icosphere_2.png>] <img/bezier_loop.png,
+ id=53, 269.50688pt x 259.7203pt>
 File: img/bezier_loop.png Graphic file (type png)
 
 <use img/bezier_loop.png>
-Package pdftex.def Info: img/bezier_loop.png used on input line 118.
-(pdftex.def)             Requested size: 193.68054pt x 186.64972pt.
- <img/quartic.png, id=42, 550.055pt x 526.96875pt>
+Package pdftex.def Info: img/bezier_loop.png used on input line 159.
+(pdftex.def)             Requested size: 242.10439pt x 233.3181pt.
+ [7 <./img/bezier_loop.png>]
+<img/quartic.png, id=63, 550.055pt x 526.96875pt>
 File: img/quartic.png Graphic file (type png)
-
-<use img/quartic.png>
-Package pdftex.def Info: img/quartic.png used on input line 125.
+ <use img/quartic.png>
+Package pdftex.def Info: img/quartic.png used on input line 168.
 (pdftex.def)             Requested size: 217.89246pt x 208.74942pt.
- <img/bezier_patch.jpg, id=43, 504.88625pt x 444.66125pt>
+
+<img/bezier_patch.jpg, id=64, 504.88625pt x 444.66125pt>
 File: img/bezier_patch.jpg Graphic file (type jpg)
 
 <use img/bezier_patch.jpg>
-Package pdftex.def Info: img/bezier_patch.jpg used on input line 136.
+Package pdftex.def Info: img/bezier_patch.jpg used on input line 179.
 (pdftex.def)             Requested size: 208.20622pt x 183.37074pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[5 <./img/bezier_loop.png> <./img/quartic.png>] [6 <./img/bezier_patch.jpg>]
-(project2.bbl) [7] (project2.aux) ) 
+ [8 <./img/quartic.png> <./img/bezier_patch.jpg>]
+[9] (project2.bbl) [10] (project2.aux) ) 
 Here is how much of TeX's memory you used:
- 4472 strings out of 493698
- 65406 string characters out of 3144391
- 130374 words of memory out of 3000000
- 7734 multiletter control sequences out of 15000+200000
+ 4497 strings out of 493698
+ 66046 string characters out of 3144391
+ 129374 words of memory out of 3000000
+ 7754 multiletter control sequences out of 15000+200000
  15248 words of font info for 56 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  42i,8n,40p,392b,323s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program F
-iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on project2.pdf (7 pages, 527026 bytes).
+<C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+ti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb
+>
+Output written on project2.pdf (10 pages, 732433 bytes).
 PDF statistics:
- 102 PDF objects out of 1000 (max. 8388607)
+ 121 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
 

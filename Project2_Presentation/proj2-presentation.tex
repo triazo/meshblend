@@ -41,6 +41,15 @@
 						\caption{A cube (left) and the resulting refined mesh $\mathcal{M}^1$ (right).}
 		\end{figure}
 	\end{frame}
+	
+	\begin{frame}
+		\begin{figure}
+			\frametitle{Mesh Refinement - Cube}
+			\centering
+			\includegraphics[width=.7\linewidth]{img/refine_cube_2}
+			\caption{A closer view of the refined cubic Mesh.}		
+		\end{figure}
+	\end{frame}
 
 	\begin{frame}
 		\begin{figure}
@@ -53,12 +62,32 @@
 
 	\begin{frame}
 		\begin{figure}
+			\frametitle{Mesh Refinement - Icosphere}
+			\centering
+			\includegraphics[width=.7\linewidth]{img/refine_icosphere_2}
+			\caption{A closer view of the refined icospheric Mesh.}		
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}
+		\begin{figure}
 			\frametitle{Mesh Refinement - Monkey}
 			\centering
 			\includegraphics[width=.7\linewidth]{img/refine_monkey}
 			\caption{A monkey head (nicknamed `Suzanne' left) and the resulting refined mesh $\mathcal{M}^1$ (right).}			
 		\end{figure}
 	\end{frame}
+
+
+	\begin{frame}
+		\begin{figure}
+			\frametitle{Mesh Refinement - Monkey}
+			\centering
+			\includegraphics[width=.7\linewidth]{img/refine_monkey_2}
+			\caption{A closer view of the refined monkey.}			
+		\end{figure}
+	\end{frame}
+		
 
 	\begin{frame}
 		\frametitle{Quad-Net Construction}
@@ -79,6 +108,15 @@
 			\caption{Quad-nets (right) corresponding to the cube's $\mathcal{M}^1$ (left)}	
 		\end{figure}
 	\end{frame}	
+	
+	\begin{frame}
+		\begin{figure}[h]
+			\frametitle{Quad-Net Construction - Cube}
+			\centering
+			\includegraphics[width=.55\linewidth]{img/quad_cube_2}
+			\caption{Quad-nets corresponding to the cube's $\mathcal{M}^1$ }	
+		\end{figure}
+	\end{frame}
 
 	\begin{frame}
 		\begin{figure}[h]
@@ -86,6 +124,15 @@
 			\centering
 			\includegraphics[width=.8\linewidth]{img/quad_icosphere}
 			\caption{Quad-nets (right) corresponding to the icosphere's $\mathcal{M}^1$ (left)}	
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\begin{figure}[h]
+			\frametitle{Quad-Net Construction - Icosphere}
+			\centering
+			\includegraphics[width=.75\linewidth]{img/quad_icosphere_2}
+			\caption{Quad-nets corresponding to the icosphere's $\mathcal{M}^1$ }	
 		\end{figure}
 	\end{frame}
 
@@ -144,7 +191,7 @@
 
 	\begin{frame}
 		\frametitle{Coloring Quartic B\`ezier Patches:}
-		$\langle$add explanation of coloring process here$\rangle$
+			Once the Quartic Triangular B\`ezier patches are resolved using sympy, the patches are colored with a UV map based on Gaussian curvature. Namely, Gaussian curvature is calculated using the first and second fundamental form coefficients: $$K = \dfrac{LN-M^2}{EG-F^2}$$
 	\end{frame}
 
 	\begin{frame}
@@ -161,7 +208,9 @@
 
 	\begin{frame} 
 		\frametitle{Software:}
-		Blender, Python 3.5.1, Mathematica
+		Blender, Python 3.5.1, Mathematica\\
+		\vspace{0.50in}
+		Contribute at: \texttt{https://github.com/triazo/meshblend}
 	\end{frame}
 
 	\begin{frame}
