@@ -296,6 +296,11 @@ new_points = {}
 #create a mapping from the vertex to the (face, new_pt, new_clockwise_pt)
 vertex_to_new_pts = {}
 
+
+#vertex index to quadnet points
+# {vertex_index: {face: []}}
+quad_nets = OrderedDict()
+
 for i in range(0,len(vert_to_face)):
     vert_faces = vert_to_face[i]
     for j in range(0, len(vert_faces)):
@@ -335,6 +340,13 @@ for i in range(0,len(vert_to_face)):
         to_add.append(new_points[clockwise_pt])
         
         vertex_to_new_pts[(i,face_index)] = (vert_pt,clockwise_pt) 
+        
+        if i not in quad_nets.keys():
+            quad_nets[i] = {}
+        if 'new_face' not in quad_nets[i].keys():
+            quad_nets[i]['new_face'] = []
+        
+        quad_nets[i]['new_face'].append(len(quad_face))
         quad_face.append(tuple(to_add))
 
 face_edges = [tuple(x.edge_keys) for x in polys]        
@@ -352,9 +364,7 @@ for poly in me.polygons:
     face_edges[poly.index] = f_edges
     
 
-#vertex index to quadnet points
-# {vertex_index: {face: []}}
-quad_nets = OrderedDict()
+
 
 # map a vertex to a ordered list of the inner points  
 # {vetex_index: {pt_1, pt_2,pt_3, pt_4}}
@@ -376,12 +386,17 @@ for i in range(0,len(face_edges)):
         if new_pt not in new_points.keys():
             new_points[new_pt] = len(quad_net_v)
             quad_net_v.append(new_pt)
-        
+  
         quad_face.append((new_points[new_pt],new_points[tuple(pt_1)], new_points[tuple(pt_2)]))
         
                
         if v not in quad_nets.keys():
             quad_nets[v] = OrderedDict()
+        
+        if 'new_face' not in quad_nets[v].keys():
+            quad_nets[v]['new_face'] = []
+        
+        quad_nets[v]['new_face'].append(len(quad_face)-1) #    
         
         if 'last_face' not in quad_nets[v].keys():
             quad_nets[v]['last_face'] = None
@@ -432,19 +447,15 @@ for i in range(0,len(face_edges)):
 
 # these are the vertices in the dictionary new_points
 quad_net_verts = [] 
-            
+
+#add the remaining faces            
 for vert in quad_nets.keys():
     pts = quad_nets[vert]['points']
     quad_net_verts.append(pts)
-    
-    #quad_face.append(tuple()) 
-    assert(len(quad_nets[vert]['points'])==16)
-    
-for vert in quad_nets.keys():
-    pts = quad_nets[vert]['points']
     s = (pts[0],pts[2],pts[3],pts[4],pts[6] ,pts[7],pts[8],pts[10],pts[11],pts[12],pts[14],pts[15]) 
-    quad_face.append(s)        
-
+    quad_nets[vert]['new_face'].append(len(quad_face))
+    quad_face.append(s)  
+    assert(len(pts)==16)    
 
 q_obj = createMeshFromData('QuadTest', Vector((3,3,0)), 
                             tuple(quad_net_v), tuple(quad_face))                                                                                         
@@ -563,11 +574,12 @@ def quartic_patches(a,b):
 
     for exp in exprs:
         exprlist = list(tuple(exp))
-        print("ParametricPlot3D[{3}{0},{1},{2}{4},{3}s, 0, 1{4}, {3}t, 0, 1{4}, RegionFunction -> ( (#4 + #5) < 1 &)]".format(exprlist[0],exprlist[1],exprlist[2], '{', '}').replace('**','^'))
+        #print("ParametricPlot3D[{3}{0},{1},{2}{4},{3}s, 0, 1{4}, {3}t, 0, 1{4}, RegionFunction -> ( (#4 + #5) < 1 &)]".format(exprlist[0],exprlist[1],exprlist[2], '{', '}').replace('**','^'))
     return tuple(exprs)
 
 # Eventually needs to be [([quad_net(as index)], [faces(as indexes)], (patch1...patch4))]
 data_structure_thingy = []
+
 
 for q in quad_nets: 
     f1 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][1]]]
@@ -575,4 +587,4 @@ for q in quad_nets:
     f3 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][9]]]
     f4 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][13]]]
     q_faces = [f1, f2, f3, f4]
-    data_structure_thingy.append((quartic_patches(*control_points(q_obj,quad_nets[q])), q, q_faces ))
+    data_structure_thingy.append((quartic_patches(*control_points(q_obj,quad_nets[q])), q, quad_nets[q]['new_face'] ))
