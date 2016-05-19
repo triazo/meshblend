@@ -1,6 +1,6 @@
 import sympy
 
-u,v = sympy.symbols('u v', real=True)
+u,v = sympy.symbols('s t', real=True)
 
 def dot_product(a, b):
     return sum([a_ * b_ for a_,b_ in zip(a,b)])

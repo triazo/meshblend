@@ -4,7 +4,10 @@ import os
 
 # Change this to determine the positions of things.
 # Will need to alter this line to take into account the buffer built into the uv map.
-positions = [(x/3,y/3) for y in range(4) for x in range(4)]
+positions = [(1/3,0),(0,0),(0,1/3),(1/6,1/2),
+             (0,2/3),(0,1),(1/3,1),(1/2,5/6),
+             (2/3,1),(1,1),(1,2/3),(5/6,1/2),
+             (1,1/3),(1,0),(2/3,0),(1/2,1/6)]
 
 def new_mat(filename):
     p = os.path.realpath(filename)
@@ -46,10 +49,13 @@ def map_patches(object, filename, patches):
     tv_layer = bm.faces.layers.tex.verify()
     
     for i, patch in enumerate(patches):
+        print(patch[1])
         for f in [bm.faces[j] for j in patch[2]] :
+            print("")
             for l in f.loops:
                 # Can this line be optimized? maybe.
                 coords = positions[patch[1].index(l.vert.index)]
+                print(l.vert.index,end=" ")
                 coords = (coords[0], (coords[1] + i)/n)
                 luv = l[uv_layer]
                 luv.uv = coords

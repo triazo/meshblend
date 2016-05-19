@@ -480,7 +480,7 @@ def control_points(obj, quad_net):
     a = list([list([sympy.Matrix([0,0,0]) for j in range(4)]) for i in range(4)])
     b = list([list([sympy.Matrix([0,0,0]) for j in range(5)]) for i in range(5)])
     
-    n = sympy.symbols('edges')
+    n = sympy.symbols('edges', real=True)
     cn = sympy.cos(2*sympy.pi / n)
 
     # Fancy way of getting all the border points
@@ -532,6 +532,7 @@ def control_points(obj, quad_net):
             sympy.Matrix([0,0,0])).subs(n,edgenums[3]).evalf()
              
     # Sanity check. make sure every point has a nondummy value
+    # Sholud not actually print anything
     for x,aa in enumerate(a):
         for y,aaa in enumerate(aa):
             if aaa == sympy.Matrix([0,0,0]):
@@ -547,7 +548,7 @@ def control_points(obj, quad_net):
     return (a,b)
 
 def quartic_patches(a,b):
-    s, t, u = sympy.symbols('s t u')
+    s, t, u = sympy.symbols('s t u', real=True)
     
     ll = len(a)-1
     exprs = []
@@ -570,7 +571,7 @@ def quartic_patches(a,b):
 		   + 6*b_s[i][1][3]*(t**2)*(u**2) + 4*a_s[i][1][2]*t*(u**3) + b_s[i][2][2]*(u**4) + 4*a_s[i][1][1]*s*(u**3) + 6*b_s[i][1][1]*(s**2)*(u**2) \
            + 4*a_s[i][0][0]*(s**3)*u + 12*a_s[i][0][2]*s*(t**2)*u + 12*a_s[i][0][1]*(s**2)*t*u + 12*b_s[i][1][2]*s*t*(u**2)
         expr = expr.subs(u,1-(s+t))
-        exprs.append(expr)
+        exprs.append(sympy.simplify(expr))
 
     for exp in exprs:
         exprlist = list(tuple(exp))
@@ -587,4 +588,19 @@ for q in quad_nets:
     f3 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][9]]]
     f4 = centroids_to_faces[quad_net_v[quad_nets[q]['points'][13]]]
     q_faces = [f1, f2, f3, f4]
-    data_structure_thingy.append((quartic_patches(*control_points(q_obj,quad_nets[q])), q, quad_nets[q]['new_face'] ))
+    data_structure_thingy.append((quartic_patches(*control_points(q_obj,quad_nets[q])), quad_nets[q]['points'], quad_nets[q]['new_face'] ))
+    
+
+import random
+import importlib
+
+import uv_map
+import image
+importlib.reload(uv_map)
+importlib.reload(image)
+
+nonce = ''.join(['0123456789abcdef'[random.randint(0,15)] for x in range(8)])
+
+image.make_image(data_structure_thingy, "colors-"+nonce+".png")
+uv_map.map_patches(q_obj,"colors-"+nonce+".png",data_structure_thingy)
+print("Done")

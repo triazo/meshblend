@@ -1,4 +1,5 @@
 import sympy
+import numpy as np
 from PIL import Image
 import sys
 import importlib
@@ -8,19 +9,24 @@ importlib.reload(mathstuffs)
 
 RESOLUTION = 8
 
-u,v = sympy.symbols("u v", real=True)
+u,v = sympy.symbols("s t", real=True)
 
-# To make more
-x = 0.0
-# ==========TODO==========
+transform = None
+sqtwo = sympy.sqrt(2)
+x_, y_ = sympy.symbols("x y")
+transX = sympy.lambdify((x_,y_),((x_-.5)-(y_-.5))*sqtwo)
+transY = sympy.lambdify((x_,y_),((x_-.5)+(y_-.5))*sqtwo)
+
 def process_patch(patch):
-    gc = mathstuffs.gaussian_curvature(patch[0])
-    gc = sympy.lambdify((u,v),gc)
+    gc = tuple([mathstuffs.gaussian_curvature(p) for p in patch[0]])
+    gc = tuple([sympy.lambdify((u,v),c) for c in gc])
     # Patch is a sympy equation
     map = []
-    for uval in range(-1, RESOLUTION+1):
-        for vval in range(-1, RESOLUTION+1):
-            map.append(gc(uval,vval))
+    for xval in np.arange(0,1, 1/RESOLUTION):
+        for yval in np.arange(0,1,1/RESOLUTION):
+            p = (transX(xval,yval),transY(xval,yval))
+            i = ((3,2),(0,1))[p[0]>0][p[1]>0]
+            map.append(gc[i](abs(p[0]),abs(p[1])))
     return map
 
 def normalize(patch, magnitude):
@@ -66,7 +72,7 @@ def make_image(patches, filename):
     colors = colorize(curvatures)
 
     # make one big image for the gauss map. There's buffer for overlap.
-    im = Image.new("RGB", (RESOLUTION+2, (RESOLUTION+2)*len(patches)))
+    im = Image.new("RGB", (RESOLUTION, (RESOLUTION)*len(patches)))
     imdata = []
     for l in colors:
         imdata += l
