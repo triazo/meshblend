@@ -406,6 +406,12 @@ for i in range(0,len(face_edges)):
             quad_nets[v]['points'][2] = new_points[vertex_to_new_pts[(v,i)][0]] # new_pt
             quad_nets[v]['points'][3] = new_points[new_pt]
             
+            #try reversing these?
+            #quad_nets[v]['points'][4] = new_points[vertex_to_new_pts[(v,other_face)][1]] # clockwise_pt
+            #centroid = tuple(centroids[other_face])
+            #quad_nets[v]['points'][5] = new_points[centroid]#
+            #quad_nets[v]['points'][6] = new_points[vertex_to_new_pts[(v,other_face)][0]] # new_pt
+            
             quad_nets[v]['points'][4] = new_points[vertex_to_new_pts[(v,other_face)][1]] # clockwise_pt
             centroid = tuple(centroids[other_face])
             quad_nets[v]['points'][5] = new_points[centroid]#
@@ -541,13 +547,37 @@ def control_points(obj, quad_net):
 
 def quartic_patches(a,b):
     s, t, u = sympy.symbols('s t u')
-    expr = b[0][0]*(s**4) + 4*b[0][1]*(s**3)*t + 6*b[0][2]*(s**2)*(t**2) + 4*b[0][3]*s*(t**3) + b[0][4]*(t**4) + 4*a[0][3]*(t**3)*u \
-		   + 6*b[1][3]*(t**2)*(u**2) + 4*a[1][2]*t*(u**3) + b[2][2]*(u**4) + 4*a[1][1]*s*(u**3) + 6*b[1][1]*(s**2)*(u**2) \
-           + 4*a[0][0]*(s**3)*u + 12*a[0][2]*s*(t**2)*u + 12*a[0][1]*(s**2)*t*u + 12*b[1][2]*s*t*(u**2)
-    expr = expr.subs(u,1-(s+t))
+    
+    ll = len(a)-1
+    exprs = []
+    
+    a_s = []
+    b_s = []
+    
+    a_s.append(a)
+    a_s.append(list([list([a[j][3-i] for j in [0,1,2,3]]) for i in [0,1,2,3]]))
+    a_s.append(list([list([a[3-i][3-j] for j in [0,1,2,3]]) for i in [0,1,2,3]]))
+    a_s.append(list([list([a[3-j][i] for j in [0,1,2,3]]) for i in [0,1,2,3]]))
+                                                                     
+    b_s.append(b)  
+    b_s.append(list([list([b[j][4-i] for j in [0,1,2,3,4]]) for i in [0,1,2,3,4]]))
+    b_s.append(list([list([b[4-i][4-j] for j in [0,1,2,3,4]]) for i in [0,1,2,3,4]]))
+    b_s.append(list([list([b[4-j][i] for j in [0,1,2,3,4]]) for i in [0,1,2,3,4]]))
+ 
     print('\n'*5)
-    exprlist = list(tuple(expr))
-    print("ParametricPlot3D[{3}{0},{1},{2}{4},{3}s, 0, 1{4}, {3}t, 0, 1{4}, RegionFunction -> ( (#4 + #5) < 1 &)]".format(exprlist[0],exprlist[1],exprlist[2], '{', '}').replace('**','^'))
+    for i in range (0,len(a_s)): 
+        expr = b_s[i][0][0]*(s**4) + 4*b_s[i][0][1]*(s**3)*t + 6*b_s[i][0][2]*(s**2)*(t**2) + 4*b_s[i][0][3]*s*(t**3) + b_s[i][0][4]*(t**4) + 4*a_s[i][0][3]*(t**3)*u \
+		   + 6*b_s[i][1][3]*(t**2)*(u**2) + 4*a_s[i][1][2]*t*(u**3) + b_s[i][2][2]*(u**4) + 4*a_s[i][1][1]*s*(u**3) + 6*b_s[i][1][1]*(s**2)*(u**2) \
+           + 4*a_s[i][0][0]*(s**3)*u + 12*a_s[i][0][2]*s*(t**2)*u + 12*a_s[i][0][1]*(s**2)*t*u + 12*b_s[i][1][2]*s*t*(u**2)
+        expr = expr.subs(u,1-(s+t))
+        exprs.append(expr)
+    #print ('test' + str(len(exprs)))
+    #print(exprs)
+    
+    print('\n'*5)
+    for exp in exprs:
+        exprlist = list(tuple(exp))
+        print("ParametricPlot3D[{3}{0},{1},{2}{4},{3}s, 0, 1{4}, {3}t, 0, 1{4}, RegionFunction -> ( (#4 + #5) < 1 &)]".format(exprlist[0],exprlist[1],exprlist[2], '{', '}').replace('**','^'))
     return expr
 
 # Eventually needs to be [([quad_net(as index)], [faces(as indexes)], (patch1...patch4))]
@@ -559,4 +589,4 @@ count = 0
 for q in quad_nets: 
     count = count + 1
     data_structure_thingy.append(quartic_patches(*control_points(q_obj,quad_nets[q])))
-    if count > 3: break
+    if count > 0: break
