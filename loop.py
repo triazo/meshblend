@@ -602,5 +602,5 @@ importlib.reload(image)
 nonce = ''.join(['0123456789abcdef'[random.randint(0,15)] for x in range(8)])
 
 image.make_image(data_structure_thingy, "colors-"+nonce+".png")
-uv_map.map_patches(q_obj,"C:\\Users\\drumhb-t430s\\Documents\\Ubuntu-VM-Shared\\proj2\\meshblend\\colors-"+nonce+".png",data_structure_thingy)
+uv_map.map_patches(q_obj,"colors-"+nonce+".png",data_structure_thingy)
 print("Done")

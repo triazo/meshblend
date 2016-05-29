@@ -78,7 +78,7 @@ def make_image(patches, filename):
     for l in colors:
         imdata += l
     im.putdata(imdata)
-    im.save("C:\\Users\\drumhb-t430s\\Documents\\Ubuntu-VM-Shared\\proj2\\meshblend\\" +filename)
+    im.save(filename)
     
 
 
